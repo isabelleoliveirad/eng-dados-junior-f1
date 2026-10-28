@@ -1,0 +1,8 @@
+-r requirements.txt
+pytest>=8,<10
+pytest-cov>=6,<9
+ruff>=0.12,<1
+pytest-mock>=3.12,<4
+pre-commit>=4,<5
+taskipy>=1.14,<2
+mkdocs-material>=9,<11

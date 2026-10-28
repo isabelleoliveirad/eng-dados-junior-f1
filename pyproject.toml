@@ -1,0 +1,58 @@
+[project]
+name = "eng-dados-junior-f1"
+version = "0.1.0"
+description = "Dashboard F1 com API OpenF1, Streamlit, testes e CI"
+readme = "README.md"
+requires-python = ">=3.12,<4"
+dependencies = [
+    "streamlit>=1.54,<2",
+    "requests>=2.32,<3",
+    "pydantic>=2.10,<3",
+    "pandas>=2.2,<3",
+    "plotly>=6.0,<7",
+    "python-dotenv>=1.0,<2",
+]
+
+[tool.poetry]
+packages = [{include = "f1", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0,<3.0"]
+build-backend = "poetry.core.masonry.api"
+
+[dependency-groups]
+dev = [
+    "pytest>=8,<10",
+    "pytest-cov>=6,<9",
+    "ruff>=0.12,<1",
+    "pytest-mock>=3.12,<4",
+    "pre-commit>=4,<5",
+    "taskipy>=1.14,<2",
+    "mkdocs-material>=9,<11",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["f1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "--cov=src/f1 --cov-report=term-missing --cov-fail-under=50"
+
+[tool.coverage.run]
+omit = ["src/f1/dashboard.py"]  # UI verificada manualmente; medir lógica em testes unitários
+
+[tool.taskipy.tasks]
+test = "pytest tests/"
+lint = "ruff check ."
+format = "ruff format ."
+docs = "mkdocs serve"
